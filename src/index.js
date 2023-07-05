@@ -1,13 +1,40 @@
-import React from 'react';
-import ReactDOM from 'react-dom/client';
-import './index.css';
-import App from './App';
-import reportWebVitals from './reportWebVitals';
+import React from "react";
+import ReactDOM from "react-dom/client";
+import "./index.css";
+import App from "./App";
+import reportWebVitals from "./reportWebVitals";
 
-const root = ReactDOM.createRoot(document.getElementById('root'));
+import { createBrowserRouter, RouterProvider } from "react-router-dom";
+
+import PageGettingStarted from "./components/PageGettingStarted";
+import PageApplication from "./components/PageApplication";
+import PageReview from "./components/PageReview";
+
+const router = createBrowserRouter([
+  {
+    path: "/",
+    element: <PageGettingStarted />,
+  },
+  {
+    path: "/application",
+    element: <PageApplication />,
+  },
+  {
+    path: "/review",
+    element: <PageReview />,
+    action: async ({ request }) => {
+      const formData = await request.formData();
+      console.log(Object.fromEntries(formData));
+
+      return Object.fromEntries(formData);
+    },
+  },
+]);
+
+const root = ReactDOM.createRoot(document.getElementById("root"));
 root.render(
   <React.StrictMode>
-    <App />
+    <RouterProvider router={router}></RouterProvider>
   </React.StrictMode>
 );
 
